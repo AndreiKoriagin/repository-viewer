@@ -3,9 +3,9 @@ import { getMostRecentGithubProjects } from '../services/github.service';
 
 export const RepositoriesContext = createContext({});
 
-const LOCAL_STORAGE_ITEM_NAME = 'favorites';
+export const LOCAL_STORAGE_ITEM_NAME = 'favorites';
 
-const updateLocalStorageMap = (repositoryId, isFavorite) => {
+const updateLocalStorageMapEntry = (repositoryId, isFavorite) => {
   const current = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ITEM_NAME));
 
   current[repositoryId] = !!isFavorite;
@@ -29,7 +29,7 @@ export const RepositoriesContextProvider = ({children}) => {
     setRepositories(repositories.map(item => {
       if (item.id === repositoryId) {
 
-        updateLocalStorageMap(repositoryId, !item.isFavorite);
+        updateLocalStorageMapEntry(repositoryId, !item.isFavorite);
 
         return {
           ...item,
@@ -58,7 +58,7 @@ export const RepositoriesContextProvider = ({children}) => {
       try {
         const items = await getMostRecentGithubProjects();
         const storedFavorites = getLocalStorageMap();
-
+        
         for (const item of items) {
           item.isFavorite = !!storedFavorites[item.id];
           
@@ -106,6 +106,7 @@ export const RepositoriesContextProvider = ({children}) => {
       setShowOnlyFavorite,
       setLanguageFilter,
       languages: [...languages.current.values()],
+      setRepositories,
     }}>
       {children}
     </RepositoriesContext.Provider>

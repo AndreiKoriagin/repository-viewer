@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Button, Card, Icon, Image, Label } from 'semantic-ui-react'
+import { Button, Card, Icon, Label } from 'semantic-ui-react'
 import { useRepositories } from '../context/repositories.context';
 
 const RepositoryCard = ({repository}) => {

@@ -1,10 +1,9 @@
 import dayjs from "dayjs";
-import ky from "ky";
 
 export const getMostRecentGithubProjects = () => {
   const startDate = dayjs().subtract(7, 'days').format('YYYY-MM-DD')
-  return ky.get(`https://api.github.com/search/repositories?q=created:>${startDate}&sort=stars&order=desc`)
-  .json()
+  return fetch(`https://api.github.com/search/repositories?q=created:>${startDate}&sort=stars&order=desc`)
+  .then(response => response.json())
   .then(
     result => result?.items.map((item) => {
       return {
