@@ -1,23 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import { useRepositories } from './context/repositories.context';
+import RepositoryCard from './components/RepositoryCard';
+import { Card, Checkbox } from 'semantic-ui-react';
+import Spinner from './components/Spinner';
+import LanguageFilter from './components/LanguageFilter';
 
 function App() {
+  const {repositories, isLoading, setShowOnlyFavorite} = useRepositories();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App-wrapper'>
+      <div className='App-filters'>
+        <Checkbox toggle label={'Favorite only'} onChange={(e, data) => {
+          setShowOnlyFavorite(data.checked);
+        }}/>
+        <LanguageFilter />
+      </div>
+      {isLoading
+        ? <Spinner />
+        : <div className='App-list-wrapper'>
+            <Card.Group>
+              {repositories.map(repo => <RepositoryCard key={repo.url} repository={repo} />)}
+            </Card.Group>
+          </div>
+      }
     </div>
   );
 }

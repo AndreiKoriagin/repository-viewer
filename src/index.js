@@ -3,11 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { RepositoriesContextProvider } from './context/repositories.context';
+import 'semantic-ui-css/semantic.min.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <RepositoriesContextProvider>
+      <App />
+    </RepositoriesContextProvider>
   </React.StrictMode>
 );
 
